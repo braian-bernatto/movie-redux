@@ -1,7 +1,5 @@
 import MovieList from '../components/MovieList'
-import { useEffect, useState } from 'react'
-import clienteAxios from '../../config/axios'
-import { Movie } from '../../types/index'
+import { useEffect } from 'react'
 import {
   Box,
   FormControl,
@@ -10,6 +8,9 @@ import {
   Pagination,
   Select
 } from '@mui/material'
+import { RootState } from '../store'
+import { getMovies, setListFilter, setPage } from '../store/slices/movies'
+import { useAppDispatch, useAppSelector } from '../hooks'
 
 const LIST_OPTIONS = [
   { label: 'Now Playing', value: 'now_playing' },
@@ -18,34 +19,26 @@ const LIST_OPTIONS = [
 ]
 
 const MoviesPage = () => {
-  const [movies, setMovies] = useState<Movie[]>([])
-  const [selectedOption, setSelectedOption] = useState('popular')
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(500)
-
-  const getMovies = async () => {
-    const lista = await clienteAxios(`/movie/${selectedOption}`, {
-      params: { page }
-    })
-    setMovies(lista.data.results)
-    setTotalPages(lista.data?.total_pages > 500 ? 500 : lista.data.total_pages)
-  }
+  const { movies, page, totalPages, listFilter } = useAppSelector(
+    (state: RootState) => state.movies
+  )
+  const dispatch = useAppDispatch()
 
   const handleSelectedOption = (value: string) => {
-    setPage(1)
-    setSelectedOption(value)
+    dispatch(setPage(1))
+    dispatch(setListFilter(value))
   }
 
   const handlePageChanged = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setPage(value)
+    dispatch(setPage(value))
   }
 
   useEffect(() => {
-    getMovies()
-  }, [selectedOption, page])
+    dispatch(getMovies())
+  }, [listFilter, page])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -63,7 +56,7 @@ const MoviesPage = () => {
           <Select
             labelId='movie-list-select'
             id='movie-list-select'
-            value={selectedOption}
+            value={listFilter}
             label='Lists'
             onChange={e => handleSelectedOption(e.target.value)}>
             {LIST_OPTIONS.map(option => (

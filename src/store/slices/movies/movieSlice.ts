@@ -1,29 +1,51 @@
-import { createSlice } from '@reduxjs/toolkit'
-// import type { PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Movie } from '../../../../types'
 
-export interface CounterState {
-  value: Movie[]
+export interface MovieState {
+  page: number
+  totalPages: number
+  listFilter: string
+  isLoading: boolean
+  movies: Movie[]
 }
 
-const initialState: CounterState = {
-  value: []
+export interface MoviesPayload {
+  page: number
+  results: Movie[]
+  total_pages: number
+  total_results: number
+}
+
+const initialState: MovieState = {
+  page: 1,
+  totalPages: 500,
+  listFilter: 'popular',
+  isLoading: false,
+  movies: []
 }
 
 export const movieSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    getAllMovies: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value
-      console.log({ slice: state.value })
+    startLoadingMovies: state => {
+      state.isLoading = true
+    },
+    setMovies: (state, action: PayloadAction<MoviesPayload>) => {
+      state.isLoading = false
+      state.totalPages =
+        action.payload.total_pages > 500 ? 500 : action.payload.total_pages
+      state.movies = action.payload.results
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload
+    },
+    setListFilter: (state, action: PayloadAction<string>) => {
+      state.listFilter = action.payload
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { getAllMovies } = movieSlice.actions
+export const { startLoadingMovies, setMovies, setPage, setListFilter } =
+  movieSlice.actions

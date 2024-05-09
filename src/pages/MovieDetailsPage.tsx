@@ -11,11 +11,11 @@ import {
 } from '@mui/material'
 import { format } from 'date-fns'
 import { FormatQuote, Star } from '@mui/icons-material'
-import { Movie } from '../../types/index'
+import { MovieDetail } from '../../types/index'
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams()
-  const [movie, setMovie] = useState<Movie | undefined>()
+  const [movie, setMovie] = useState<MovieDetail | undefined>()
 
   const getMovieDetails = async () => {
     const lista = await clienteAxios(`/movie/${movieId}`)
