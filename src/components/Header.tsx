@@ -8,7 +8,7 @@ import InputBase from '@mui/material/InputBase'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import { LocalMovies } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { RootState } from '../store'
 import { setPage, setSearchParam } from '../store/slices/movies'
@@ -58,8 +58,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Header() {
   const { searchParam } = useAppSelector((state: RootState) => state.movies)
   const dispatch = useAppDispatch()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const handleSelectedOption = (value: string) => {
+    if (location.pathname !== '/') {
+      navigate(`/`)
+    }
     dispatch(setPage(1))
     dispatch(setSearchParam(value))
   }
