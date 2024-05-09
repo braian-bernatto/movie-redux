@@ -48,16 +48,18 @@ const MovieDetailsPage = () => {
           )}
         </Box>
         {/* Backdrop image */}
-        <img
-          src={`https://image.tmdb.org/t/p/w342${movie.backdrop_path}`}
-          alt={movie.title}
-          style={{
-            height: 200,
-            width: '100%',
-            objectFit: 'cover',
-            objectPosition: 'top'
-          }}
-        />
+        {movie.backdrop_path && (
+          <img
+            src={`https://image.tmdb.org/t/p/w342${movie.backdrop_path}`}
+            alt={movie.title}
+            style={{
+              height: 200,
+              width: '100%',
+              objectFit: 'cover',
+              objectPosition: 'top'
+            }}
+          />
+        )}
 
         {/* main content */}
         <Box
@@ -78,7 +80,7 @@ const MovieDetailsPage = () => {
               gap: 1,
               alignItems: 'center',
               position: 'relative',
-              top: -50,
+              top: movie.backdrop_path && -50,
               left: 10
             }}>
             <Card

@@ -12,3 +12,14 @@ export const getMovies = () => {
     dispatch(setMovies(lista.data))
   }
 }
+
+export const getMoviesByName = () => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { page, searchParam } = getState().movies
+    dispatch(startLoadingMovies())
+    const lista = await clienteAxios(`/search/movie`, {
+      params: { page, query: searchParam }
+    })
+    dispatch(setMovies(lista.data))
+  }
+}

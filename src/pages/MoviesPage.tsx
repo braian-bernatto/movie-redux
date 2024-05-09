@@ -9,7 +9,13 @@ import {
   Select
 } from '@mui/material'
 import { RootState } from '../store'
-import { getMovies, setListFilter, setPage } from '../store/slices/movies'
+import {
+  getMovies,
+  getMoviesByName,
+  setListFilter,
+  setPage,
+  setSearchParam
+} from '../store/slices/movies'
 import { useAppDispatch, useAppSelector } from '../hooks'
 
 const LIST_OPTIONS = [
@@ -19,13 +25,14 @@ const LIST_OPTIONS = [
 ]
 
 const MoviesPage = () => {
-  const { movies, page, totalPages, listFilter } = useAppSelector(
+  const { movies, page, totalPages, listFilter, searchParam } = useAppSelector(
     (state: RootState) => state.movies
   )
   const dispatch = useAppDispatch()
 
   const handleSelectedOption = (value: string) => {
     dispatch(setPage(1))
+    dispatch(setSearchParam(''))
     dispatch(setListFilter(value))
   }
 
@@ -37,8 +44,12 @@ const MoviesPage = () => {
   }
 
   useEffect(() => {
-    dispatch(getMovies())
-  }, [listFilter, page])
+    if (searchParam) {
+      dispatch(getMoviesByName())
+    } else {
+      dispatch(getMovies())
+    }
+  }, [listFilter, page, searchParam])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

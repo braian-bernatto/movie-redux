@@ -9,6 +9,9 @@ import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import { LocalMovies } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { RootState } from '../store'
+import { setPage, setSearchParam } from '../store/slices/movies'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,6 +56,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export default function Header() {
+  const { searchParam } = useAppSelector((state: RootState) => state.movies)
+  const dispatch = useAppDispatch()
+
+  const handleSelectedOption = (value: string) => {
+    dispatch(setPage(1))
+    dispatch(setSearchParam(value))
+  }
+
   return (
     <Box sx={{ flexGrow: 1, marginBottom: 5 }}>
       <AppBar position='static'>
@@ -94,6 +105,8 @@ export default function Header() {
             <StyledInputBase
               placeholder='Search…'
               inputProps={{ 'aria-label': 'search' }}
+              value={searchParam}
+              onChange={e => handleSelectedOption(e.target.value)}
             />
           </Search>
         </Toolbar>
