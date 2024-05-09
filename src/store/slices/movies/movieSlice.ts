@@ -1,0 +1,29 @@
+import { createSlice } from '@reduxjs/toolkit'
+// import type { PayloadAction } from '@reduxjs/toolkit'
+import { Movie } from '../../../../types'
+
+export interface CounterState {
+  value: Movie[]
+}
+
+const initialState: CounterState = {
+  value: []
+}
+
+export const movieSlice = createSlice({
+  name: 'movies',
+  initialState,
+  reducers: {
+    getAllMovies: state => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      state.value
+      console.log({ slice: state.value })
+    }
+  }
+})
+
+// Action creators are generated for each case reducer function
+export const { getAllMovies } = movieSlice.actions
