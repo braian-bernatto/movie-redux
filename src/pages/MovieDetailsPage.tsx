@@ -19,7 +19,6 @@ const MovieDetailsPage = () => {
 
   const getMovieDetails = async () => {
     const lista = await clienteAxios(`/movie/${movieId}`)
-    console.log(lista.data)
     setMovie(lista.data)
   }
 
@@ -42,7 +41,9 @@ const MovieDetailsPage = () => {
     movie && (
       <Box sx={{ position: 'relative', width: '100%' }}>
         <Box sx={{ marginBottom: 0.5 }}>
-          <Typography sx={{ fontSize: 40 }}>{movie.title}</Typography>
+          <Typography sx={{ fontSize: { xs: 20, sm: 30 } }} component='h1'>
+            {movie.title}
+          </Typography>
           {movie.title !== movie.original_title && (
             <Typography>{movie.original_title}</Typography>
           )}

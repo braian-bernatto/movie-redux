@@ -51,6 +51,14 @@ const MoviesPage = () => {
     }
   }, [listFilter, page, searchParam])
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }, [page])
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Box
