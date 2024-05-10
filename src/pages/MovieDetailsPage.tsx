@@ -38,10 +38,10 @@ const MovieDetailsPage = () => {
 
   function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     event.preventDefault()
-    const target = event.currentTarget
+    const target = event.target
 
     // If the clicked element is a Link component
-    if (target instanceof HTMLAnchorElement && target.href) {
+    if (target instanceof HTMLAnchorElement) {
       navigate(new URL(target.href).pathname)
     }
   }
