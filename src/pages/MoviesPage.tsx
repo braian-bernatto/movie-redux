@@ -37,6 +37,7 @@ const MoviesPage = () => {
   }
 
   const handlePageChanged = (
+    //@ts-expect-error this line it's needed to avoid warnings
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
