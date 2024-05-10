@@ -19,3 +19,6 @@ Para ejecutar la aplicación en un entorno local sigue los siguientes pasos:
   npm run dev
   ```
 - Listo! tienes la app corriendo 🚀
+
+## Live Preview
+También puedes ver el resultado final visitando este [enlace!](https://vercel.com/braianbernattos-projects/movie-redux)
