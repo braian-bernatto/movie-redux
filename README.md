@@ -21,4 +21,4 @@ Para ejecutar la aplicación en un entorno local sigue los siguientes pasos:
 - Listo! tienes la app corriendo 🚀
 
 ## Live Preview
-También puedes ver el resultado final visitando este [enlace!](https://vercel.com/braianbernattos-projects/movie-redux)
+También puedes ver el resultado final visitando este [enlace!](https://movie-redux-azure.vercel.app/)
