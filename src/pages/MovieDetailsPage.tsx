@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import clienteAxios from '../../config/axios'
 import {
   Box,
+  Breadcrumbs,
   Card,
   CardContent,
   CardMedia,
   Chip,
+  Link,
   Typography
 } from '@mui/material'
 import { format } from 'date-fns'
@@ -14,6 +16,7 @@ import { FormatQuote, Star } from '@mui/icons-material'
 import { MovieDetail } from '../../types/index'
 
 const MovieDetailsPage = () => {
+  const navigate = useNavigate()
   const { movieId } = useParams()
   const [movie, setMovie] = useState<MovieDetail | undefined>()
 
@@ -33,6 +36,16 @@ const MovieDetailsPage = () => {
       : '-'
   }
 
+  function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    event.preventDefault()
+    const target = event.currentTarget
+
+    // If the clicked element is a Link component
+    if (target instanceof HTMLAnchorElement && target.href) {
+      navigate(new URL(target.href).pathname)
+    }
+  }
+
   useEffect(() => {
     getMovieDetails()
   }, [])
@@ -40,6 +53,19 @@ const MovieDetailsPage = () => {
   return (
     movie && (
       <Box sx={{ position: 'relative', width: '100%' }}>
+        <div role='presentation' onClick={handleClick}>
+          <Breadcrumbs aria-label='breadcrumb' sx={{ color: '#fff' }}>
+            <Link
+              style={{
+                color: '#fff',
+                textDecoration: 'none'
+              }}
+              href='/'>
+              Home
+            </Link>
+            <Typography sx={{ color: '#fff' }}>{movie.title}</Typography>
+          </Breadcrumbs>
+        </div>
         <Box sx={{ marginBottom: 0.5 }}>
           <Typography sx={{ fontSize: { xs: 20, sm: 30 } }} component='h1'>
             {movie.title}
@@ -135,7 +161,10 @@ const MovieDetailsPage = () => {
             }}>
             <Typography>Status: {movie.status}</Typography>
             <Typography>
-              Release: {format(movie.release_date, 'dd MMMM yyyy')}
+              Release:{' '}
+              {movie.release_date
+                ? format(movie.release_date, 'dd MMMM yyyy')
+                : '-'}
             </Typography>
             <Typography>Duration: {getDuration(movie.runtime)}</Typography>
             <Typography>Country: {movie.origin_country.join(', ')}</Typography>
